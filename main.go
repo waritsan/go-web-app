@@ -1,4 +1,3 @@
-// main.go
 package main
 
 import (
@@ -6,9 +5,15 @@ import (
 	"net/http"
 )
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "✅ Go Web App is running on Azure App Service!")
+}
+
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello from Go on Azure Free Tier!")
-	})
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/", handler)
+	fmt.Println("Starting server on :80...")
+	err := http.ListenAndServe(":80", nil)
+	if err != nil {
+		fmt.Printf("Server error: %v\n", err)
+	}
 }
